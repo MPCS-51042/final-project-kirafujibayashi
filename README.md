@@ -19,25 +19,25 @@ My ideas for my final project are...
     Analyze the data to understand its structure and quality.
     Clean and preprocess the data for use in the model.
   
-Week 2: Model Development (Part 1)
+- Week 2: Model Development (Part 1)
   Objective: Begin developing the core model for plant identification.
   Tasks:
     Select and set up a machine learning framework for image recognition.
     Start developing the model using a subset of the data.
     Begin basic testing of the model with sample images.
-Week 3: Model Development (Part 2) and Initial App Development
+- Week 3: Model Development (Part 2) and Initial App Development
   Objective: Finalize the model and start developing the app interface.
   Tasks:
     Complete the development of the identification model.
     Conduct extensive testing and refine the model as needed.
     Start building the basic app interface where users can upload pictures or descriptions.
-Week 4: App Development and Integration
+- Week 4: App Development and Integration
   Objective: Develop the main functionalities of the app and integrate the model.
   Tasks:
     Develop features for the app (uploading images, displaying results, etc.).
     Integrate the identification model with the app.
     Conduct preliminary testing of the app for functionality and user experience.
-Week 5: Testing, Refinement, and Deployment
+- Week 5: Testing, Refinement, and Deployment
   Objective: Finalize the user interface and add language to help users use the site
   Tasks:
     Perform comprehensive testing including user experience, model accuracy, and bug fixes.
