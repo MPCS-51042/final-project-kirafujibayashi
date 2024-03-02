@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicago Parks Map</title>
+    <!-- Include Leaflet CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        /* Set the map container height */
+        #map { height: 600px; }
+
+        /* Styling for selected park polygon */
+        .selected-park {
+            fillOpacity: 0.5; /* Adjust the opacity as needed */
+            fillColor: rgb(62, 141, 62); /* Change the color to your desired color */
+        }
+    </style>
+</head>
+<body>
+    <select id="park-select">
+        <option value="">Select a park</option>
+    </select>
+    <div id="map"></div>
+    <div id="park-features">
+        <h4>Park Features</h4>
+        <table id="park-features-table">
+            <tr>
+            </tr>
+        </table>
+    </div>
+    <div id="park-observations">
+        <h4>Plant Observations at the Park</h4>
+        <table id="park-observations-table" style="border-spacing: 10px; border-collapse: separate;">
+            <tr>
+                
+            </tr>
+            <!-- Add more rows here -->
+        </table>
+    </div>
+    </div>
+    
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([41.8781, -87.6298], 10); // Zoom level 10 for Chicago
+
+        // Add a base map layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Load the GeoJSON data from Flask
+        var geojson = {{ geojson | safe }};
+
+        // Create a GeoJSON layer and add it to the map
+        var geojsonLayer = L.geoJSON(geojson, {
+            style: function (feature) {
+                return { color: ' grey' };
+            },
+            onEachFeature: function (feature, layer) {
+                // Create a popup for each feature
+                var popupContent = `<strong>${feature.properties.label} Park</strong><br>`;
+                popupContent += `${feature.properties.park_class}<br>`;
+                layer.bindPopup(popupContent);
+
+                // Add the park to the select dropdown
+                var select = document.getElementById("park-select");
+                var option = document.createElement("option");
+                option.value = feature.id;
+                option.text = feature.properties.label + " Park";
+                select.appendChild(option);
+            }
+        }).addTo(map);
+
+        // Event listener for the select dropdown
+        document.getElementById("park-select").addEventListener("change", function() {
+            var parkId = parseInt(this.value);
+            if (!isNaN(parkId)) {
+                // Remove existing park polygon
+                geojsonLayer.eachLayer(function(layer) {
+                    if (layer.feature.id === parkId) {
+                        map.removeLayer(layer);
+                    }
+                });
+
+                // Zoom to the selected park
+                var selectedPark = geojson.features.find(function(feature) {
+                    return feature.id === parkId;
+                });
+                if (selectedPark) {
+                    map.fitBounds(L.geoJSON(selectedPark.geometry).getBounds());
+
+                    // Add selected-park class to the selected park polygon
+                    var selectedLayer = L.geoJSON(selectedPark, {
+                        style: function(feature) {
+                            return {
+                                fillColor: 'green',
+                                fillOpacity: 0.5,
+                                color: 'green' // Set the border color if needed
+                            };
+                        }
+                    }).addTo(map);
+                }
+
+                // Update the table with the selected park's properties
+                var table = document.getElementById("park-features-table");
+                table.innerHTML = "<tr><th>Property</th><th>Value</th></tr>";
+                for (var key in selectedPark.properties) {
+                    if (key !== "id") {
+                        var value = selectedPark.properties[key];
+                        if (key === "nature_bird" || key === "nature_center" || key === "conservatory" || key == "wetland_ar" || key === "lagoon" || key === "wheelchr_a") {
+                            value = value === 1 ? "Yes" : "No";
+                        }
+                        var description;
+                        switch (key) {
+                            case "label":
+                                description = "Park Name";
+                                break;
+                            case "park_class":
+                                description = "Park Class";
+                                break;
+                            case "park_no":
+                                description = "Park Number";
+                                break;
+                            case "nature_bird":
+                                description = "Bird Sanctuary";
+                                break;
+                            case "nature_center":
+                                description = "Nature Center";
+                                break;
+                            case "conservatory":
+                                description = "Conservatory";
+                                break;
+                            case "wetland_ar":
+                                description = "Wetland Area";
+                                break;
+                            case "lagoon":
+                                description = "Lagoon";
+                                break;
+                            case "wheelchr_a":
+                                description = "Wheelchair Access";
+                                break;
+                            default:
+                                description = "";
+                                break;
+                        }
+                        table.innerHTML += "<tr><td>" + description + "</td><td>" + value + "</td></tr>";
+                    }
+                }
+
+                // Update the table with the selected park's observation records
+                var table = document.getElementById("park-observations-table");
+                table.innerHTML = "<tr><th>Taxon ID</th><th>Iconic Taxon Name</th><th>Scientific Name</th><th>Common Name</th><th>Observation Count</th><th>Recent Submited Image</th><th>Observed Date Histogram</th></tr>";
+
+                // Iterate over the observations array
+                for (var i = 0; i < selectedPark.observations.length; i++) {
+                    var observation = selectedPark.observations[i];
+                    
+                    // Create a table row for each observation
+                    var row = "<tr>";
+                    row += "<td>" + observation.taxon_id + "</td>";
+                    row += "<td>" + observation.iconic_taxon_name + "</td>";
+                    row += "<td>" + observation.scientific_name + "</td>";
+                    row += "<td>" + observation.common_name + "</td>";
+                    row += "<td>" + observation.observation_count + "</td>";
+                    if (observation.image_url) {
+                        row += "<td><a href='" + observation.image_url + "' target='_blank'><img src='" + observation.image_url + "' alt='Observation Image' width='100'></a></td>";
+                    } else {
+                        row += "<td></td>"; // No image available
+                    }
+                    if (observation.histogram_url) {
+                        row += "<td><button onclick=\"window.location.href='" + observation.histogram_url + "'\">View Histogram</button></td>";
+                    } else {
+                        row += "<td></td>"; // No histogram available
+                    }
+                    
+                    row += "</tr>";
+                    
+                    // Add the row to the table
+                    table.innerHTML += row;
+                }
+
+            }
+        });
+
+        // Event listener for clicking on the map
+        map.on('click', function(e) {
+            // Identify the clicked park
+            var clickedPark = geojsonLayer.getLayers().find(function(layer) {
+                return layer.feature.geometry.type === 'Polygon' && layer.getBounds().contains(e.latlng);
+            });
+
+            if (clickedPark) {
+                // Select the park in the dropdown
+                document.getElementById("park-select").value = clickedPark.feature.id;
+
+                // Remove existing selected-park class from all park polygons
+                geojsonLayer.eachLayer(function(layer) {
+                    layer.setStyle({ fillColor: 'grey' });
+                    layer.setStyle({ fillOpacity: 1 });
+                    layer.setStyle({ color: 'grey' }); // Set the border color back to grey
+                });
+
+                // Add selected-park class to the clicked park polygon
+                clickedPark.setStyle({ fillColor: 'green' });
+                clickedPark.setStyle({ fillOpacity: 0.5 });
+                clickedPark.setStyle({ color: 'black' }); // Set the border color if needed
+
+                // Zoom to the clicked park
+                map.fitBounds(clickedPark.getBounds());
+            }
+        });
+
+    </script>
+</body>
+</html>

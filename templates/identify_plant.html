@@ -1,0 +1,60 @@
+<!-- identify_plant.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identify Plant</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Include Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        /* Custom CSS for layout */
+        .content-padding {
+            padding-top: 70px; /* Adjust this value based on the height of the navigation bar */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">PlantID Chicago Parks</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul id="sections" class="nav navbar-nav">
+                    <li><a href="/">Chicago Parks</a></li>
+                    <li><a href="/plant_identification">Plant Identification</a></li>
+                    <li><a href="/add_observation">Add an Observation</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container content-padding">
+        <h1>Identify a Plant</h1>
+        <form action="/identify_plant" method="post" enctype="multipart/form-data">
+            <label for="plant-photo">Upload a photo of the plant:</label>
+            <input type="file" id="plant-photo" name="plant_photo" accept="image/*" required><br>
+            <button type="submit">Identify Plant</button>
+        </form>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p> </p>
+            <p> </p>
+            <p> </p>
+            <p> </p>
+            <p> </p>
+            <p>PlantID Chicago was built by Kira Fujibayashi for a Python programming final project.</p>
+            <p>Plant Identification: https://plant.id</p>
+            <p>iNaturalist Occurrence Data: https://www.inaturalist.org</p>
+            <p>Chicago Open Data Portal: https://data.cityofchicago.org/Parks-Recreation/Parks-Chicago-Park-District-Park-Boundaries-curren/ej32-qgdr</p>
+        </div>
+    </footer>
+</body>
+</html>

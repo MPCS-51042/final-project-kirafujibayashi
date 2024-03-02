@@ -1,0 +1,53 @@
+<!-- plant_identification_results.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identify Plant</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Include Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        /* Custom CSS for layout */
+        .content-padding {
+            padding-top: 70px; /* Adjust this value based on the height of the navigation bar */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">PlantID Chicago Parks</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul id="sections" class="nav navbar-nav">
+                    <li><a href="/">Chicago Parks</a></li>
+                    <li><a href="/plant_identification">Plant Identification</a></li>
+                    <li><a href="/add_observation">Add an Observation</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<body>
+    <div class="container content-padding"></div>
+    <h1>Plant Identification Results</h1>
+    {% if plant_info.result.is_plant.binary %}
+        {% for suggestion in plant_info.result.classification.suggestions %}
+            <div>
+                <h2>{{ suggestion.name }}</h2>
+                <p><strong>Probability:</strong> {{ suggestion.probability * 100 }}%</p>
+                <p><strong>Common Names:</strong> {{ suggestion.details.common_names|join(', ') }}</p>
+                <p><a href="{{ suggestion.details.url }}">More Info</a></p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>The uploaded image is not identified as a plant.</p>
+    {% endif %}
+    </div>
+</body>
+</html>

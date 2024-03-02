@@ -1,0 +1,93 @@
+<!-- add_observation.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identify Plant</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Include Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        /* Custom CSS for layout */
+        .content-padding {
+            padding-top: 70px; /* Adjust this value based on the height of the navigation bar */
+        }
+        .observation-row td {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        table {
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">PlantID Chicago Parks</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul id="sections" class="nav navbar-nav">
+                    <li><a href="/">Chicago Parks</a></li>
+                    <li><a href="/plant_identification">Plant Identification</a></li>
+                    <li><a href="/add_observation">Add an Observation</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<body>
+    <div class="container content-padding"></div>
+        <h3>Add a Plant Observation</h3>
+        <form id="observation-form" action="/add_observation" method="post" enctype="multipart/form-data">
+            <label for="scientific-name">Scientific Name:</label>
+            <input type="text" id="scientific-name" name="scientific_name" required><br>
+
+            <label for="common-name">Common Name:</label>
+            <input type="text" id="common-name" name="common_name" optional><br>
+
+            <label for="park-name">Park Name:</label>
+            <input type="text" id="park-name" name="park_name" optional><br>
+
+            <label for="observed-on">Observed On:</label>
+            <input type="date" id="observed-on" name="observed_on" optional><br>
+
+            <label for="observation-image">Observation Image:</label>
+            <input type="file" id="observation-image" name="observation_image">
+
+            <button type="submit">Submit Observation</button>
+        </form>
+        <!-- Display Observations -->
+        <h3>Track Your Observations</h3>
+        <p>Record your own observations here. </p> 
+        <table>
+            <tr>
+                <th> Scientific Name </th>
+                <th> Common Name </th>
+                <th> Park Name </th>
+                <th> Observed On </th>
+                <th> Image </th>
+            </tr>
+            {% for observation in observations %}
+            <tr class="observation-row"> 
+                <td>{{ observation.scientific_name }}</td>
+                <td>{{ observation.common_name }}</td>
+                <td>{{ observation.park_name }}</td>
+                <td>{{ observation.observed_on }}</td>
+                <td>
+                    {% if observation.image_url %}
+                        <img src="{{ observation.image_url }}" alt="Observation Image" width="100">
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+</div>
+    
+</body>
+</html>

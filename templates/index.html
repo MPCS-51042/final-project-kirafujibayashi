@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Identification in Chicago Parks</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Include Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        /* Custom CSS for layout */
+        .map-container {
+            padding-right: 15px; /* Adjust as needed */
+            margin-left: -200px; /* Override Bootstrap's default margin */
+        }
+        .text-container {
+            padding-left: 15px; /* Adjust as needed */
+            padding-right: 0; /* Adjust as needed */
+        }
+        .content-padding {
+            padding-top: 70px; /* Adjust this value based on the height of the navigation bar */
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">PlantID Chicago Parks</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul id="sections" class="nav navbar-nav">
+                <li><a href="#section-1">Intro</a></li>
+                <li><a href="#section-2">Chicago Parks</a></li>
+                <li><a href="/plant_identification">Plant Identification</a></li>
+                <li><a href="/add_observation">Add an Observation</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        
+            <div class="container content-padding"> <!---col-md-7 text-container--> 
+                <h1>Welcome to PlantID Chicago!</h1>
+                <div id="section-1" class="section">
+                    <h2>Introduction</h2>
+                    <p>Welcome to PlantID Chicago, your gateway to discovering the natural beauty of Chicago's parks! 
+                        Whether you're a nature enthusiast, a botany lover, or simply curious about the flora around you, 
+                        PlantID Chicago is here to help you explore and identify the diverse range of plants and flowers 
+                        that adorn Chicago's green spaces. With PlantID Chicago, identifying plants and flowers has never been easier. 
+                        Our user-friendly interface and comprehensive database allow you to quickly and accurately identify various species, 
+                        learn about their characteristics, and deepen your appreciation for the natural world around you.
+
+                        Whether you're strolling through Grant Park's lush gardens, marveling at the floral displays in Lincoln Park, 
+                        or taking in the sights of Millennium Park's botanical wonders, PlantID Chicago is your trusted companion for discovering 
+                        and understanding the plant life that enriches our city's parks. Start your journey today and uncover the fascinating 
+                        world of plants and flowers in Chicago's parks with PlantID Chicago!</p>
+
+                </div>        
+                </header>
+                <div id="section-2" class="section">
+                    <h2>Plants in Chicago Parks</h2>
+                    <h3>Instructions </h3>
+                    <p>Select a park using the drop down menu below to see natural features in 
+                        the park and observations of local plants and flowers observed in the park. </p>
+                    <!-- include the map.html file -->
+                    {% include 'map.html' %}
+                </div>
+
+            </div>
+    </div>
+</div>
+
+<footer>
+    <div>
+        <p> </p>
+        <h4>Notes & Citations:</h4>
+        <p>PlantID Chicago was build by Kira Fujibayashi for python programming final project.</p>
+        <p>Plant Identification: https://plant.id </p>
+        <p>iNaturalist Occurence Data: https://www.inaturalist.org</p>
+        <p>Chicago Open Data Portal: https://data.cityofchicago.org/Parks-Recreation/Parks-Chicago-Park-District-Park-Boundaries-curren/ej32-qgdr</p>
+    </div>
+</footer>
+
+</body>
+</html>
