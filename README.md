@@ -22,6 +22,7 @@ My ideas for my final project are...
 - Week 2: Model Development (Part 1)
   Objective: Begin developing the core model for plant identification.
   Tasks:
+    Identify APIs for Development
     Select and set up a machine learning framework for image recognition.
     Start developing the model using a subset of the data.
     Begin basic testing of the model with sample images.
