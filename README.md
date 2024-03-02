@@ -46,3 +46,17 @@ My ideas for my final project are...
     Prepare the app for deployment.
     Create documentation and user guides.
 
+
+# Data: 
+Here is the link to the Google Drive: https://drive.google.com/drive/folders/1ohuVjIspVltqB_KwLFRi8zlIZX4DWZNd?usp=share_link
+
+The folder contains two sub-folders with: 
+1) a Shapefile for the Chicago Park District
+2) observation records from inaturalist
+
+# API Key: 
+For the plant identification, I used the Plant.ID API. My API key is: DyW60XtfACbzl41bC5V8Pd6qzesW86ZVW79VA28z6lrK2Ah17B
+
+
+
+
